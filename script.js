@@ -17,7 +17,48 @@ const CONFIG = {
   SEHIR: "İzmir",
   ADRES: "İzmir Geneli 30 İlçe ve Otoyollar 7/24 Nöbetçi Çekici Noktaları",
   CALISMA_SAATLERI: "7 Gün 24 Saat Kesintisiz",
-  GOOGLE_MAPS_URL: "https://www.google.com/maps?q=38.4237,27.1428"
+  GOOGLE_MAPS_URL: "https://www.google.com/maps?q=38.4237,27.1428",
+  
+  // Google Ads 1. Sıra ve 10/10 Kalite Puanı Dönüşüm Takip Parametreleri
+  // Google Ads panelinde dönüşüm oluşturduğunuzda bu ID'leri güncelleyebilirsiniz
+  GOOGLE_ADS_ID: "AW-CONVERSION_ID",
+  ADS_CONVERSION_LABEL_CALL: "CALL_CONVERSION_LABEL",
+  ADS_CONVERSION_LABEL_WA: "WA_CONVERSION_LABEL"
+};
+
+// =============================================================================
+// GOOGLE ADS & CRO AKILLI DÖNÜŞÜM TAKİP SİSTEMİ (1. SIRA & 10/10 KALİTE PUANI)
+// =============================================================================
+window.triggerGoogleAdsConversion = function(type, details = {}) {
+  try {
+    // 1. DataLayer Push (Google Ads, Tag Manager ve Analytics 4 için evrensel sinyal)
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: type === 'call' ? 'ads_call_click' : 'ads_whatsapp_lead',
+      conversion_type: type,
+      source_action: details.label || 'Direct Click',
+      phone_number: CONFIG.TELEFON_NO,
+      page_url: window.location.href,
+      timestamp: new Date().toISOString()
+    });
+
+    // 2. Google Ads gtag.js doğrudan dönüşüm tetiklemesi
+    if (typeof window.gtag === 'function') {
+      const sendTo = type === 'call' 
+        ? `${CONFIG.GOOGLE_ADS_ID}/${CONFIG.ADS_CONVERSION_LABEL_CALL}` 
+        : `${CONFIG.GOOGLE_ADS_ID}/${CONFIG.ADS_CONVERSION_LABEL_WA}`;
+      
+      window.gtag('event', 'conversion', {
+        send_to: sendTo,
+        value: 1.0,
+        currency: 'TRY',
+        event_category: type === 'call' ? 'Phone Call' : 'WhatsApp Lead',
+        event_label: details.label || 'User Action'
+      });
+    }
+  } catch (err) {
+    // AdBlocker vb. durumlarda sessizce devam et
+  }
 };
 
 // =============================================================================
@@ -353,6 +394,12 @@ window.sendLocationToWhatsApp = function(buttonElement) {
   const redirectWhatsApp = (text) => {
     if (redirected) return;
     redirected = true;
+
+    // Google Ads WhatsApp Dönüşüm Bildirimi
+    if (typeof window.triggerGoogleAdsConversion === 'function') {
+      window.triggerGoogleAdsConversion('whatsapp', { label: 'GPS_Location_Sent' });
+    }
+
     const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NO}?text=${encodeURIComponent(text)}`;
     window.location.href = waUrl;
 
@@ -445,6 +492,16 @@ function initPriceCalculator() {
   if (submitBtn) {
     submitBtn.addEventListener("click", () => {
       const district = districtSelect ? districtSelect.value : "İzmir Geneli";
+
+      // Google Ads Fiyat Hesaplama Dönüşüm Bildirimi
+      if (typeof window.triggerGoogleAdsConversion === 'function') {
+        window.triggerGoogleAdsConversion('whatsapp', { 
+          label: 'Price_Wizard_Lead',
+          vehicle: selectedVehicle,
+          district: district 
+        });
+      }
+
       const message = `Merhaba, ${CONFIG.FIRMA_ADI}. Web sitenizdeki Fiyat Hesaplama Sihirbazı üzerinden fiyat ve varış süresi öğrenmek istiyorum:\n\n🚗 Araç Tipi: ${selectedVehicle}\n⚠️ Durum: ${selectedIssue}\n📍 Bulunduğum Bölge: ${district}\n\nEn uygun net fiyat teklifinizi ve kaç dakikada gelebileceğinizi iletebilir misiniz?`;
       const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NO}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, "_blank");
@@ -614,8 +671,14 @@ function initDistrictPills() {
       const districtName = pill.getAttribute("data-district") || pill.textContent.trim();
       const userChoice = confirm(`📍 ${districtName} Çekici Noktası\n\nNöbetçi çekicimizi doğrudan aramak için "Tamam"a, WhatsApp ile hızlı konum göndermek için "İptal"e basınız.`);
       if (userChoice) {
+        if (typeof window.triggerGoogleAdsConversion === 'function') {
+          window.triggerGoogleAdsConversion('call', { label: `District_Pill_${districtName}` });
+        }
         window.location.href = `tel:${CONFIG.TELEFON_NO}`;
       } else {
+        if (typeof window.triggerGoogleAdsConversion === 'function') {
+          window.triggerGoogleAdsConversion('whatsapp', { label: `District_Pill_${districtName}` });
+        }
         const msg = `Merhaba, ${CONFIG.FIRMA_ADI}. ${districtName} bölgesinde yolda kaldım, en yakın nöbetçi çekiciyi yönlendirebilir misiniz?`;
         window.location.href = `https://wa.me/${CONFIG.WHATSAPP_NO}?text=${encodeURIComponent(msg)}`;
       }
@@ -645,6 +708,23 @@ function initMobileMenu() {
 }
 
 // =============================================================================
+// 9.5. GOOGLE ADS ARAMA VE TELEFON TIKLAMA DÖNÜŞÜM DİNLEYİCİSİ
+// =============================================================================
+function initAdCallTracking() {
+  const telLinks = document.querySelectorAll('a[href^="tel:"]');
+  telLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (typeof window.triggerGoogleAdsConversion === 'function') {
+        window.triggerGoogleAdsConversion('call', { 
+          label: 'Phone_Call_Direct',
+          text: link.textContent.trim()
+        });
+      }
+    });
+  });
+}
+
+// =============================================================================
 // 10. BAŞLATICI
 // =============================================================================
 document.addEventListener("DOMContentLoaded", () => {
@@ -656,6 +736,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initAccordion();
   initDistrictPills();
   initMobileMenu();
+  initAdCallTracking();
 
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
