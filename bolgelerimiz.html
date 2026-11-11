@@ -254,12 +254,12 @@
         İzmir'in 30 ilçesinin tamamına (Seferihisar, Menderes, Aliağa, Dikili, Foça, Bergama, Ödemiş, Tire vb.) 7/24 nöbetçi çekici yönlendiriyoruz.
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-4">
-        <a href="tel:+905369764293" class="btn-shimmer px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-2xl shadow-lg flex items-center gap-2">
+        <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer px-8 py-4 font-black rounded-2xl shadow-lg flex items-center gap-2 animate-call-urgent">
           <i data-lucide="phone-call" class="w-5 h-5"></i> 0536 976 42 93 Hemen Ara
         </a>
-        <a href="https://wa.me/905369764293?text=Merhaba,%20İzmir%20çekici%20için%20konum%20göndermek%20istiyorum." class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg flex items-center gap-2">
-          <i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp Konum At
-        </a>
+        <button type="button" onclick="sendLocationToWhatsApp(this)" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg flex items-center gap-2 cursor-pointer transition-all active:scale-95">
+          <i data-lucide="navigation" class="w-5 h-5"></i> Tek Tuşla GPS Konum Gönder
+        </button>
       </div>
     </div>
 
@@ -271,6 +271,7 @@
     <p class="mt-1">0536 976 42 93 • 7/24 Kesintisiz Hizmet</p>
   </footer>
 
+  <script src="script.js"></script>
   <script>
     if (typeof lucide !== 'undefined') lucide.createIcons();
   </script>

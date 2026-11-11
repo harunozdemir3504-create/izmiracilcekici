@@ -144,9 +144,10 @@
         <!-- Masaüstü Navigasyon Menüsü -->
         <nav class="hidden lg:flex items-center gap-6">
           <a href="#hizmetler" class="text-sm font-semibold text-slate-700 hover:text-sky-600 transition-colors">Hizmetlerimiz</a>
-          <a href="#konum-bul" class="text-sm font-bold text-sky-600 hover:text-sky-700 transition-colors flex items-center gap-1 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-100">
-            <i data-lucide="map-pin" class="w-4 h-4 text-sky-600"></i> GPS Konum
-          </a>
+          <button type="button" onclick="sendLocationToWhatsApp(this)" class="text-sm font-bold text-sky-600 hover:text-sky-700 transition-colors flex items-center gap-1.5 bg-sky-50 px-3.5 py-1.5 rounded-full border border-sky-100 hover:bg-sky-100/80 cursor-pointer shadow-sm active:scale-95">
+            <i data-lucide="map-pin" class="w-4 h-4 text-sky-600"></i>
+            <span>GPS Konum</span>
+          </button>
           <a href="#fiyat-hesapla" class="text-sm font-semibold text-slate-700 hover:text-sky-600 transition-colors">Fiyat Hesapla</a>
           <a href="#operasyonlar" class="text-sm font-semibold text-slate-700 hover:text-sky-600 transition-colors">Operasyonlarımız</a>
           <a href="#galeri" class="text-sm font-semibold text-slate-700 hover:text-sky-600 transition-colors">Galeri</a>
@@ -189,10 +190,10 @@
         <span>🟢 İzmir Geneli Nöbetçi Çekici Hazırda Bekliyor</span>
       </div>
       <a href="#hizmetler" class="mobile-nav-link block py-2 text-base font-semibold text-slate-800 hover:text-sky-600 border-b border-slate-100">Hizmetlerimiz</a>
-      <a href="#konum-bul" class="mobile-nav-link block py-2 text-base font-bold text-sky-600 border-b border-slate-100 flex items-center justify-between">
+      <button type="button" onclick="sendLocationToWhatsApp(this)" class="w-full text-left py-2.5 text-base font-bold text-sky-600 border-b border-slate-100 flex items-center justify-between cursor-pointer active:scale-98">
         <span>📍 Otomatik GPS Konum Gönder</span>
-        <span class="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded font-bold">Hemen Çağır</span>
-      </a>
+        <span class="text-xs bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full font-bold">Hemen Çağır</span>
+      </button>
       <a href="#fiyat-hesapla" class="mobile-nav-link block py-2 text-base font-semibold text-slate-800 hover:text-sky-600 border-b border-slate-100">Fiyat Hesaplama Sihirbazı</a>
       <a href="#operasyonlar" class="mobile-nav-link block py-2 text-base font-semibold text-slate-800 hover:text-sky-600 border-b border-slate-100">Kurtarma Operasyonlarımız</a>
       <a href="#galeri" class="mobile-nav-link block py-2 text-base font-semibold text-slate-800 hover:text-sky-600 border-b border-slate-100">Fotoğraf Galerisi</a>
@@ -272,11 +273,11 @@
               <span>HEMEN ACİL ÇEKİCİ ARA</span>
             </a>
 
-            <!-- WhatsApp GPS Konum Butonu -->
-            <a href="#konum-bul" class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-base rounded-2xl shadow-lg shadow-emerald-600/20 transition-all active:scale-95">
+            <!-- WhatsApp GPS Konum Butonu (Doğrudan GPS tetikler, sayfa zıplamaz) -->
+            <button type="button" onclick="sendLocationToWhatsApp(this)" class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-base rounded-2xl shadow-lg shadow-emerald-600/20 transition-all active:scale-95 cursor-pointer">
               <i data-lucide="navigation" class="w-5 h-5 text-emerald-200"></i>
               <span>Tek Tuşla GPS Konum Gönder</span>
-            </a>
+            </button>
           </div>
 
           <!-- Doğrudan Çağrı Bilgisi -->
@@ -361,7 +362,7 @@
 
           <!-- GPS Çağrı Butonu -->
           <div class="pt-4 max-w-lg mx-auto">
-            <button id="btnGpsLocate" type="button" class="w-full btn-shimmer flex items-center justify-center gap-3 px-6 py-5 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black text-lg sm:text-xl rounded-2xl shadow-xl shadow-emerald-600/30 transform hover:-translate-y-0.5 active:scale-95 transition-all">
+            <button id="btnGpsLocate" type="button" onclick="sendLocationToWhatsApp(this)" class="w-full btn-shimmer flex items-center justify-center gap-3 px-6 py-5 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black text-lg sm:text-xl rounded-2xl shadow-xl shadow-emerald-600/30 transform hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer">
               <i data-lucide="crosshair" class="w-7 h-7 text-emerald-200"></i>
               <span>📍 KONUMUMU OTOMATİK BUL & ÇEKİCİ ÇAĞIR</span>
             </button>
@@ -1143,7 +1144,7 @@
           <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4 border-b border-slate-800 pb-2">Hızlı Menü</h4>
           <ul class="space-y-2 text-xs">
             <li><a href="#hizmetler" class="hover:text-sky-400 transition-colors">Hizmetlerimiz</a></li>
-            <li><a href="#konum-bul" class="hover:text-sky-400 transition-colors">Tek Tuşla GPS Konum</a></li>
+            <li><button type="button" onclick="sendLocationToWhatsApp(this)" class="hover:text-sky-400 transition-colors text-left cursor-pointer">Tek Tuşla GPS Konum</button></li>
             <li><a href="#fiyat-hesapla" class="hover:text-sky-400 transition-colors">Fiyat Hesaplama Sihirbazı</a></li>
             <li><a href="#operasyonlar" class="hover:text-sky-400 transition-colors">Kurtarma Operasyonlarımız</a></li>
             <li><a href="#galeri" class="hover:text-sky-400 transition-colors">Fotoğraf Galerisi</a></li>
@@ -1196,11 +1197,11 @@
         <span>HEMEN ARA</span>
       </a>
 
-      <!-- 2. Dev Buton: WHATSAPP KONUM GÖNDER -->
-      <a href="#konum-bul" class="flex items-center justify-center gap-2 py-3.5 px-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black text-sm rounded-xl shadow-lg shadow-emerald-600/30 active:scale-95 transition-transform">
+      <!-- 2. Dev Buton: WHATSAPP KONUM GÖNDER (DOĞRUDAN GPS TETİKLER, SAYFA ZIPLAMAZ) -->
+      <button type="button" onclick="sendLocationToWhatsApp(this)" class="flex items-center justify-center gap-2 py-3.5 px-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black text-sm rounded-xl shadow-lg shadow-emerald-600/30 active:scale-95 transition-transform cursor-pointer">
         <i data-lucide="map-pin" class="w-4 h-4 text-emerald-200"></i>
         <span>KONUM GÖNDER</span>
-      </a>
+      </button>
     </div>
   </div>
 

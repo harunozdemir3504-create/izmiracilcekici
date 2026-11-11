@@ -307,119 +307,107 @@ function resetHeroTimer() {
 // =============================================================================
 // 4. HAYAT KURTARAN TEK TUŞLA OTOMATİK GPS KONUM BULUCU
 // =============================================================================
-function initGpsLocator() {
-  const btn = document.getElementById("btnGpsLocate");
-  const statusEl = document.getElementById("gpsStatusText");
+// =============================================================================
+// 4. HAYAT KURTARAN TEK TUŞLA DOĞRUDAN WHATSAPP GPS KONUM GÖNDERİCİ
+// =============================================================================
+let isLocatingPosition = false;
 
-  if (!btn) return;
-
-  btn.addEventListener("click", () => {
-    if (!navigator.geolocation) {
-      showGpsFallbackModal("Tarayıcınız otomatik konum özelliğini desteklemiyor. Lütfen WhatsApp üzerinden doğrudan 'Konum Gönder' butonunu kullanınız.");
-      return;
+window.sendLocationToWhatsApp = function(buttonElement) {
+  // Buton nesnesini belirle
+  let btn = buttonElement;
+  if (!btn || !(btn instanceof HTMLElement)) {
+    if (window.event && window.event.currentTarget instanceof HTMLElement) {
+      btn = window.event.currentTarget;
+    } else {
+      btn = document.getElementById("btnGpsLocate");
     }
+  }
 
+  // Çift tıklamayı önle
+  if (isLocatingPosition) return;
+  isLocatingPosition = true;
+
+  // Butonun orijinal içeriğini sakla ve "📍 Konumunuz Alınıyor..." durumuna geçir
+  let originalHtml = "";
+  if (btn) {
+    originalHtml = btn.innerHTML;
     btn.disabled = true;
-    const originalHtml = btn.innerHTML;
     btn.innerHTML = `
-      <span class="inline-flex items-center gap-2">
+      <span class="inline-flex items-center justify-center gap-2">
         <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
-        <span>🛰️ Uydudan GPS Konumunuz Alınıyor...</span>
+        <span>📍 Konumunuz Alınıyor...</span>
       </span>
     `;
+  }
 
-    if (statusEl) {
-      statusEl.textContent = "Uydular taranıyor, koordinatlar WhatsApp için hazırlanıyor...";
-      statusEl.classList.remove("hidden");
-    }
+  const statusEl = document.getElementById("gpsStatusText");
+  if (statusEl) {
+    statusEl.textContent = "📍 GPS uydusu taranıyor, WhatsApp'a yönlendiriliyorsunuz...";
+    statusEl.classList.remove("hidden");
+  }
 
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0
-    };
+  let redirected = false;
+  const redirectWhatsApp = (text) => {
+    if (redirected) return;
+    redirected = true;
+    const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NO}?text=${encodeURIComponent(text)}`;
+    window.location.href = waUrl;
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude.toFixed(6);
-        const lng = position.coords.longitude.toFixed(6);
-        const accuracy = Math.round(position.coords.accuracy);
-        const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-
-        if (statusEl) {
-          statusEl.textContent = `✅ Konum alındı (~${accuracy}m hassasiyet). WhatsApp açılıyor...`;
-        }
-
-        const message = `Merhaba, ${CONFIG.FIRMA_ADI}. Yolda kaldım, acil çekiciye ihtiyacım var.\n\n📍 Otomatik GPS Konumum:\n${mapsUrl}\n(Koordinat: ${lat}, ${lng} - Hassasiyet: ±${accuracy}m)\n\nLütfen en yakın nöbetçi çekiciyi hemen yönlendirir misiniz?`;
-        const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NO}?text=${encodeURIComponent(message)}`;
-
-        setTimeout(() => {
-          window.location.href = waUrl;
-          btn.innerHTML = originalHtml;
-          btn.disabled = false;
-        }, 700);
-      },
-      (error) => {
+    setTimeout(() => {
+      isLocatingPosition = false;
+      if (btn) {
         btn.innerHTML = originalHtml;
         btn.disabled = false;
-        let errMsg = "Konum izni alınamadı.";
+      }
+    }, 2500);
+  };
 
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errMsg = "Konum erişim izni verilmedi. Lütfen tarayıcınızın adres çubuğundaki kilit simgesine dokunarak konum iznini açın veya WhatsApp üzerinden doğrudan konum gönderin.";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errMsg = "GPS sinyali alınamadı. Açık alanda olduğunuza emin olun veya doğrudan bizi arayın.";
-            break;
-          case error.TIMEOUT:
-            errMsg = "GPS yanıt süresi aşıldı. Lütfen doğrudan WhatsApp'tan konum atın veya telefonla arayın.";
-            break;
-        }
+  // Güvenlik zaman aşımı (5.5 saniye sonra yanıt gelmezse doğrudan WhatsApp'a aktar)
+  const safetyTimer = setTimeout(() => {
+    if (!redirected) {
+      redirectWhatsApp("Merhaba, acil çekiciye ihtiyacım var. Konumumu buradan paylaşıyorum:");
+    }
+  }, 5500);
 
-        showGpsFallbackModal(errMsg);
-      },
-      options
-    );
-  });
-}
+  // Tarayıcı Geolocation desteklemiyorsa anında WhatsApp'a yönlendir
+  if (!navigator || !navigator.geolocation) {
+    clearTimeout(safetyTimer);
+    redirectWhatsApp("Merhaba, acil çekiciye ihtiyacım var. Konumumu buradan paylaşıyorum:");
+    return;
+  }
 
-function showGpsFallbackModal(message) {
-  let modal = document.getElementById("gpsFallbackModal");
-  if (!modal) {
-    modal = document.createElement("div");
-    modal.id = "gpsFallbackModal";
-    modal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm";
-    modal.innerHTML = `
-      <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl relative">
-        <button id="closeGpsModal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="w-16 h-16 mx-auto mb-4 bg-sky-50 text-sky-600 rounded-full flex items-center justify-center">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900 mb-2">Otomatik Konum Alınamadı</h3>
-        <p id="gpsModalText" class="text-sm text-slate-600 mb-6">${message}</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a href="tel:${CONFIG.TELEFON_NO}" class="w-full py-3 px-4 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-md">
-            <span>📞 Hemen Ara</span>
-          </a>
-          <a href="https://wa.me/${CONFIG.WHATSAPP_NO}?text=${encodeURIComponent('Merhaba, yolda kaldım acil çekici rica ediyorum.')}" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-md">
-            <span>💬 WhatsApp Konum</span>
-          </a>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
+  const geoOptions = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
 
-    modal.querySelector("#closeGpsModal").addEventListener("click", () => {
-      modal.classList.add("hidden");
-    });
-  } else {
-    document.getElementById("gpsModalText").textContent = message;
-    modal.classList.remove("hidden");
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      clearTimeout(safetyTimer);
+      const lat = position.coords.latitude.toFixed(6);
+      const lng = position.coords.longitude.toFixed(6);
+      const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+      const text = `Merhaba, acil çekiciye ihtiyacım var. Tam GPS konumum: ${mapsUrl}`;
+      redirectWhatsApp(text);
+    },
+    (error) => {
+      clearTimeout(safetyTimer);
+      // Hata durumunda veya izin verilmediğinde hata basıp durma, doğrudan WhatsApp'ı aç
+      const text = `Merhaba, acil çekiciye ihtiyacım var. Konumumu buradan paylaşıyorum:`;
+      redirectWhatsApp(text);
+    },
+    geoOptions
+  );
+};
+
+function initGpsLocator() {
+  const btn = document.getElementById("btnGpsLocate");
+  if (btn) {
+    btn.addEventListener("click", () => window.sendLocationToWhatsApp(btn));
   }
 }
 

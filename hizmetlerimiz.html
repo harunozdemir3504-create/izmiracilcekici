@@ -225,12 +225,13 @@
       <a href="tel:+905369764293" class="btn-urgent-call flex items-center justify-center gap-2 py-3 font-black text-sm rounded-xl shadow-md animate-call-urgent">
         <i data-lucide="phone-call" class="w-4 h-4"></i> HEMEN ARA
       </a>
-      <a href="https://wa.me/905369764293" class="flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white font-black text-sm rounded-xl">
-        <i data-lucide="message-circle" class="w-4 h-4"></i> WHATSAPP
-      </a>
+      <button type="button" onclick="sendLocationToWhatsApp(this)" class="flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white font-black text-sm rounded-xl cursor-pointer">
+        <i data-lucide="navigation" class="w-4 h-4"></i> KONUM GÖNDER
+      </button>
     </div>
   </div>
 
+  <script src="script.js"></script>
   <script>
     if (typeof lucide !== 'undefined') lucide.createIcons();
   </script>
