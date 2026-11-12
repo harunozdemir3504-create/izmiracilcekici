@@ -1,6 +1,6 @@
 /**
- * İzmir Acil Çekici & Oto Kurtarma Merkezi - Kurumsal Script
- * Alan Adı: izmiracilcekici.com.tr
+ * En Yakın Çekiciniz - İzmir 7/24 Acil Oto Kurtarma Merkezi - Kurumsal Script
+ * Alan Adı: enyakincekiciniz.com.tr
  * Tel / WhatsApp: +90 536 976 4293 (0536 976 42 93)
  */
 
@@ -8,8 +8,9 @@
 // 1. MERKEZİ KURUMSAL KONFİGÜRASYON (CONFIG)
 // =============================================================================
 const CONFIG = {
-  FIRMA_ADI: "İzmir Acil Çekici & Oto Kurtarma Merkezi",
-  DOMAIN: "izmiracilcekici.com.tr",
+  FIRMA_ADI: "En Yakın Çekiciniz",
+  DOMAIN: "enyakincekiciniz.com.tr",
+  SITE_URL: "https://enyakincekiciniz.com.tr",
   TELEFON_NO: "+905369764293",
   TELEFON_GORUNUM: "0536 976 42 93",
   WHATSAPP_NO: "905369764293",

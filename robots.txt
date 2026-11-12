@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://izmiracilcekici.com.tr/sitemap.xml
+Sitemap: https://enyakincekiciniz.com.tr/sitemap.xml
