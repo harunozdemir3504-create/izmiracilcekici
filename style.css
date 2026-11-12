@@ -36,7 +36,8 @@
 }
 
 body {
-  background-color: var(--bg-primary);
+  background: linear-gradient(180deg, #F0F7FF 0%, #E0F2FE 20%, #EFF6FF 45%, #E1EFFE 75%, #F0F7FF 100%);
+  background-attachment: fixed;
   color: var(--text-primary);
   overflow-x: hidden;
   padding-bottom: 76px;
@@ -220,57 +221,61 @@ body {
   100% { transform: translateX(100%) rotate(30deg); }
 }
 
-/* Kurumsal Kartlar */
+/* Kurumsal Güven Veren Geçişli Kartlar */
 .corporate-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 1rem;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F0F7FF 100%);
+  border: 1.5px solid rgba(2, 132, 199, 0.28);
+  border-radius: 1.25rem;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 6px 20px -2px rgba(2, 132, 199, 0.10), 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .corporate-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   border-color: #0284C7;
-  box-shadow: 0 12px 20px -4px rgba(2, 132, 199, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFFFFF 0%, #E0F2FE 100%);
+  box-shadow: 0 20px 32px -4px rgba(2, 132, 199, 0.20), 0 6px 12px -2px rgba(0, 0, 0, 0.06);
 }
 
 /* Fiyat Hesaplama Sihirbazı Seçenekleri */
 .calc-option {
   cursor: pointer;
-  border: 1.5px solid #E2E8F0;
-  background: #FFFFFF;
-  border-radius: 0.75rem;
-  transition: all 0.2s ease;
+  border: 1.5px solid rgba(2, 132, 199, 0.25);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F0F7FF 100%);
+  border-radius: 0.875rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.06);
 }
 
 .calc-option:hover {
   border-color: #0284C7;
-  background: #F0F7FF;
+  background: linear-gradient(180deg, #FFFFFF 0%, #E0F2FE 100%);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.15);
+  transform: translateY(-2px);
 }
 
 .calc-option.active {
   border-color: #0284C7;
-  background: #F0F7FF;
-  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+  background: linear-gradient(180deg, #E0F2FE 0%, #BAE6FD 100%);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.30), 0 6px 16px rgba(2, 132, 199, 0.18);
 }
 
-/* İlçe Etiket Bulutu */
+/* İlçe Etiket Bulutu - Mavi Geçişli Kurumsal Ton */
 .district-pill {
-  transition: all 0.2s ease;
-  background: #FFFFFF;
-  border: 1px solid #CBD5E1;
-  color: #1E293B;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(180deg, #FFFFFF 0%, #E8F4FD 100%);
+  border: 1.5px solid rgba(2, 132, 199, 0.32);
+  color: #0F172A;
+  box-shadow: 0 2px 5px rgba(2, 132, 199, 0.08);
 }
 
 .district-pill:hover {
-  background: #0284C7;
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #0284C7 0%, #1D4ED8 100%);
+  color: #FFFFFF !important;
   font-weight: 700;
-  border-color: #0284C7;
+  border-color: #1D4ED8;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.30);
 }
 
 /* Lightbox Modal */
