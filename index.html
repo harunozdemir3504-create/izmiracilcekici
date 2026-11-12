@@ -226,11 +226,11 @@
       <a href="iletisim.html" class="mobile-nav-link block py-2 text-base font-semibold text-slate-800 hover:text-sky-600">İletişim & Harita</a>
       
       <div class="pt-2 grid grid-cols-2 gap-2">
-        <a href="tel:+905369764293" class="btn-urgent-call w-full py-3 font-bold rounded-xl text-center text-sm flex items-center justify-center gap-1.5 shadow-md animate-call-urgent">
-          <i data-lucide="phone-call" class="w-4 h-4"></i> Hemen Ara
+        <a href="tel:+905369764293" class="btn-urgent-call w-full py-3.5 font-bold rounded-xl text-center text-sm flex items-center justify-center gap-1.5 shadow-md animate-call-urgent">
+          <i data-lucide="phone-call" class="w-4 h-4 text-white drop-shadow"></i> Hemen Ara
         </a>
-        <a href="https://wa.me/905369764293?text=Merhaba,%20En%20Yakın%20Çekiciniz%20ekibine%20ihtiyacım%20var." class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-center text-sm flex items-center justify-center gap-1.5 shadow-md">
-          <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+        <a href="https://wa.me/905369764293?text=Merhaba,%20En%20Yakın%20Çekiciniz%20ekibine%20ihtiyacım%20var." class="btn-whatsapp-action w-full py-3.5 text-white font-bold rounded-xl text-center text-sm flex items-center justify-center gap-1.5 shadow-md">
+          <i data-lucide="message-circle" class="w-4 h-4 text-white drop-shadow"></i> WhatsApp
         </a>
       </div>
     </div>
@@ -279,25 +279,25 @@
               <span class="text-xs sm:text-sm font-bold text-slate-900 block">İzmir'in Tüm İlçelerine 7/24</span>
               <span class="text-[10px] text-sky-800 font-bold">30 İlçede Hazır Filo</span>
             </div>
-            <div class="bg-gradient-to-b from-white via-emerald-50 to-teal-50 border-2 border-emerald-300 p-3 rounded-2xl text-center shadow-md hover:border-emerald-500 hover:shadow-lg transition-all cursor-pointer" onclick="sendLocationToWhatsApp(this)">
+            <div class="bg-gradient-to-b from-white via-emerald-50 to-teal-50 border-2 border-emerald-400 p-3 rounded-2xl text-center shadow-md hover:border-emerald-600 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="sendLocationToWhatsApp(this)">
               <span class="text-2xl block mb-1">📞</span>
-              <span class="text-xs sm:text-sm font-bold text-slate-900 block">Tek Tuşla WhatsApp Konum Gönder</span>
-              <span class="text-[10px] text-emerald-700 font-bold">GPS ile Anında Çağır</span>
+              <span class="text-xs sm:text-sm font-black text-emerald-950 block">📍 Konumumu Gönder ve Hemen Ara</span>
+              <span class="text-[10px] text-emerald-700 font-extrabold">GPS ile Anında Çağır</span>
             </div>
           </div>
 
           <!-- Hero Hızlı CTA Butonları -->
           <div class="pt-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
-            <!-- Açık Canlı Kırmızı Hemen Ara Butonu (Aciliyet Hissi Veren, Sırıtmayan Parlak Kırmızı) -->
-            <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 font-black text-lg rounded-2xl shadow-xl transform hover:-translate-y-0.5 active:scale-95 transition-all animate-call-urgent">
-              <i data-lucide="phone-call" class="w-6 h-6"></i>
-              <span>HEMEN ACİL ÇEKİCİ ARA</span>
+            <!-- Canlı Koyu Kırmızı Hemen Ara Butonu -->
+            <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 font-black text-lg rounded-2xl shadow-xl active:scale-95 transition-all animate-call-urgent">
+              <i data-lucide="phone-call" class="w-6 h-6 text-white drop-shadow"></i>
+              <span class="tracking-wide">HEMEN ACİL ÇEKİCİ ARA</span>
             </a>
 
             <!-- WhatsApp GPS Konum Butonu (Doğrudan GPS tetikler, sayfa zıplamaz) -->
-            <button type="button" onclick="sendLocationToWhatsApp(this)" class="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-base rounded-2xl shadow-lg shadow-emerald-600/20 transition-all active:scale-95 cursor-pointer">
-              <i data-lucide="navigation" class="w-5 h-5 text-emerald-200"></i>
-              <span>Tek Tuşla GPS Konum Gönder</span>
+            <button type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer w-full sm:w-auto flex items-center justify-center gap-3 px-7 py-4 font-black text-base sm:text-lg rounded-2xl shadow-xl active:scale-95 transition-all cursor-pointer">
+              <i data-lucide="navigation" class="w-6 h-6 text-white drop-shadow"></i>
+              <span class="tracking-wide">📍 Konumumu Gönder ve Hemen Ara</span>
             </button>
           </div>
 
@@ -383,9 +383,9 @@
 
           <!-- GPS Çağrı Butonu -->
           <div class="pt-4 max-w-lg mx-auto">
-            <button id="btnGpsLocate" type="button" onclick="sendLocationToWhatsApp(this)" class="w-full btn-shimmer flex items-center justify-center gap-3 px-6 py-5 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black text-lg sm:text-xl rounded-2xl shadow-xl shadow-emerald-600/30 transform hover:-translate-y-0.5 active:scale-95 transition-all cursor-pointer">
-              <i data-lucide="crosshair" class="w-7 h-7 text-emerald-200"></i>
-              <span>📍 KONUMUMU OTOMATİK BUL & ÇEKİCİ ÇAĞIR</span>
+            <button id="btnGpsLocate" type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer w-full flex items-center justify-center gap-3 px-6 py-5 font-black text-lg sm:text-xl rounded-2xl shadow-2xl active:scale-95 transition-all cursor-pointer">
+              <i data-lucide="crosshair" class="w-7 h-7 text-white drop-shadow"></i>
+              <span class="tracking-wide">📍 KONUMUMU GÖNDER VE HEMEN ARA</span>
             </button>
             <p id="gpsStatusText" class="text-xs text-sky-700 font-bold mt-3 hidden"></p>
           </div>
@@ -1120,14 +1120,14 @@
           </p>
         </div>
         <div class="flex flex-wrap items-center justify-center gap-3">
-          <a href="tel:+905369764293" class="px-8 py-4 bg-gradient-to-r from-red-500 via-rose-500 to-red-600 hover:from-red-600 hover:to-rose-600 text-white font-black rounded-2xl shadow-xl text-base sm:text-lg flex items-center gap-2 transition-transform active:scale-95 animate-call-urgent">
-            <i data-lucide="phone-call" class="w-5 h-5"></i>
-            <span>0536 976 42 93</span>
+          <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer px-8 py-4 font-black rounded-2xl shadow-xl text-base sm:text-lg flex items-center gap-2.5 transition-all active:scale-95 animate-call-urgent">
+            <i data-lucide="phone-call" class="w-5 h-5 text-white drop-shadow"></i>
+            <span>0536 976 42 93 Hemen Ara</span>
           </a>
-          <a href="https://wa.me/905369764293?text=Merhaba,%20acil%20çekiciye%20ihtiyacım%20var." class="px-6 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl text-base flex items-center gap-2 transition-transform active:scale-95">
-            <i data-lucide="message-circle" class="w-5 h-5"></i>
-            <span>WhatsApp Yaz</span>
-          </a>
+          <button type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer px-7 py-4 font-black rounded-2xl shadow-xl text-base flex items-center gap-2.5 transition-all active:scale-95 cursor-pointer">
+            <i data-lucide="navigation" class="w-5 h-5 text-white drop-shadow"></i>
+            <span>📍 Konum Gönder & WhatsApp</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1208,20 +1208,20 @@
   </footer>
 
   <!-- =========================================================================
-       13. MOBİL SABİT ALT BAR (STICKY BOTTOM BAR - AÇIK KIRMIZI VE YEŞİL)
+       13. MOBİL SABİT ALT BAR (STICKY BOTTOM BAR)
        ========================================================================= -->
-  <div class="fixed bottom-0 inset-x-0 z-50 md:hidden bg-white/95 border-t border-slate-200 p-2.5 backdrop-blur-lg shadow-2xl">
-    <div class="grid grid-cols-2 gap-2">
+  <div class="fixed bottom-0 inset-x-0 z-50 md:hidden bg-white/95 border-t border-slate-200/90 px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] backdrop-blur-xl shadow-[0_-8px_25px_rgba(0,0,0,0.12)]">
+    <div class="grid grid-cols-2 gap-2.5 max-w-lg mx-auto">
       <!-- 1. Dev Buton: HEMEN ARA -->
-      <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm rounded-xl shadow-lg active:scale-95 transition-transform animate-call-urgent">
-        <i data-lucide="phone-call" class="w-4 h-4"></i>
-        <span>HEMEN ARA</span>
+      <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition-all animate-call-urgent min-h-[50px] select-none">
+        <i data-lucide="phone-call" class="w-5 h-5 text-white drop-shadow"></i>
+        <span class="tracking-wide">HEMEN ARA</span>
       </a>
 
       <!-- 2. Dev Buton: WHATSAPP KONUM GÖNDER (DOĞRUDAN GPS TETİKLER, SAYFA ZIPLAMAZ) -->
-      <button type="button" onclick="sendLocationToWhatsApp(this)" class="flex items-center justify-center gap-2 py-3.5 px-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black text-sm rounded-xl shadow-lg shadow-emerald-600/30 active:scale-95 transition-transform cursor-pointer">
-        <i data-lucide="map-pin" class="w-4 h-4 text-emerald-200"></i>
-        <span>KONUM GÖNDER</span>
+      <button type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition-all cursor-pointer min-h-[50px] select-none">
+        <i data-lucide="map-pin" class="w-5 h-5 text-white drop-shadow"></i>
+        <span class="tracking-wide">KONUM GÖNDER</span>
       </button>
     </div>
   </div>

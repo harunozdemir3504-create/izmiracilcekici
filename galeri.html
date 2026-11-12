@@ -136,6 +136,20 @@
     <p class="mt-1">0536 976 42 93 • 7/24 Kesintisiz Hizmet</p>
   </footer>
 
+  <!-- Mobil Sabit Alt Bar (Sticky Bottom Bar) -->
+  <div class="fixed bottom-0 inset-x-0 z-50 md:hidden bg-white/95 border-t border-slate-200/90 px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] backdrop-blur-xl shadow-[0_-8px_25px_rgba(0,0,0,0.12)]">
+    <div class="grid grid-cols-2 gap-2.5 max-w-lg mx-auto">
+      <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition-all animate-call-urgent min-h-[50px] select-none">
+        <i data-lucide="phone-call" class="w-5 h-5 text-white drop-shadow"></i>
+        <span class="tracking-wide">HEMEN ARA</span>
+      </a>
+      <button type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition-all cursor-pointer min-h-[50px] select-none">
+        <i data-lucide="map-pin" class="w-5 h-5 text-white drop-shadow"></i>
+        <span class="tracking-wide">KONUM GÖNDER</span>
+      </button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {

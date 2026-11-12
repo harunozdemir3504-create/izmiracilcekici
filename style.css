@@ -16,14 +16,17 @@
   --blue-dark: #1D4ED8;
   --blue-navy: #0F172A;
   
-  /* Daha Açık, Canlı ve Aciliyet Hissi Veren Parlak Kırmızı */
-  --red-alert-bright: #EF4444;
-  --red-alert-mid: #F43F5E;
-  --red-alert-dark: #DC2626;
+  /* Canlı Koyu Kırmızı / Bordo (#DC2626) Modern Tonları */
+  --red-urgent-primary: #DC2626;
+  --red-urgent-hover: #EF4444;
+  --red-urgent-dark: #991B1B;
 
+  /* Kurumsal WhatsApp Yeşili (#25D366) */
+  --green-whatsapp: #25D366;
+  --green-whatsapp-hover: #1EBE5D;
+  --green-whatsapp-dark: #128C7E;
+  
   --orange-accent: #EA580C;
-  --green-whatsapp: #10B981;
-  --green-dark: #059669;
   --text-primary: #0F172A;
   --text-secondary: #475569;
   --text-muted: #64748B;
@@ -40,7 +43,7 @@ body {
   background-attachment: fixed;
   color: var(--text-primary);
   overflow-x: hidden;
-  padding-bottom: 76px;
+  padding-bottom: 84px;
 }
 
 @media (min-width: 768px) {
@@ -137,35 +140,63 @@ body {
   display: block;
 }
 
-/* Aciliyet Hissi Veren, Sırıtmayan Canlı ve Açık Kırmızı Acil Çağrı Butonu */
+/* Aciliyet Hissi Veren, Göz Yormayan Canlı Koyu Kırmızı / Bordo Buton (#DC2626) */
 .btn-urgent-call {
-  background: linear-gradient(135deg, #FF334B 0%, #FF4D61 50%, #E60023 100%);
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 60%, #991B1B 100%);
   color: #FFFFFF !important;
-  box-shadow: 0 4px 16px rgba(255, 51, 75, 0.32), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(220, 38, 38, 0.38), 0 2px 4px rgba(0, 0, 0, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .btn-urgent-call:hover {
-  background: linear-gradient(135deg, #FF475E 0%, #FF6073 50%, #F50027 100%);
-  box-shadow: 0 6px 22px rgba(255, 51, 75, 0.45);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 60%, #B91C1C 100%);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.50), 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px) scale(1.02);
 }
 
 .btn-urgent-call:active {
   transform: scale(0.97);
-  box-shadow: 0 2px 8px rgba(255, 51, 75, 0.25);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.30);
 }
 
-/* Canlı Açık Kırmızı Acil Durum Nabız Animasyonu (Gözü Yormayan, Aciliyet Hissi Veren) */
+/* Kurumsal WhatsApp Yeşili (#25D366) ve GPS Konum Butonu */
+.btn-whatsapp-action {
+  background: linear-gradient(135deg, #25D366 0%, #1EBE5D 50%, #128C7E 100%);
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.38), 0 2px 4px rgba(0, 0, 0, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
+}
+
+.btn-whatsapp-action:hover {
+  background: linear-gradient(135deg, #2CE570 0%, #25D366 50%, #16A34A 100%);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.50), 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-whatsapp-action:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.30);
+}
+
+/* Canlı Koyu Kırmızı Acil Durum Nabız Animasyonu */
 @keyframes urgentCallPulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 51, 75, 0.45), 0 4px 14px rgba(255, 51, 75, 0.28);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.45), 0 4px 18px rgba(220, 38, 38, 0.35);
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(255, 51, 75, 0), 0 6px 20px rgba(255, 51, 75, 0.42);
-    transform: scale(1.015);
+    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0), 0 8px 24px rgba(220, 38, 38, 0.48);
+    transform: scale(1.02);
   }
 }
 
