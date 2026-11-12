@@ -36,23 +36,26 @@
   <!-- Header -->
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
     <!-- Kurumsal Acil Durum Tepe Bildirim Bandı -->
-    <div class="bg-gradient-to-r from-sky-600 to-blue-700 text-white px-4 py-1.5 sm:py-2 text-xs font-semibold text-center tracking-wide flex items-center justify-center gap-2 border-b border-sky-800/20">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-live-dot"></span>
-      <span>🟢 7/24 Nöbetçi Çekici Aktif • İzmir Geneli Ortalama Varış: 15 Dakika</span>
+    <div class="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 text-white px-3 py-1.5 sm:py-2 text-xs font-bold text-center tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 border-b border-blue-900/40">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-live-dot flex-shrink-0"></span>
+      <span class="text-emerald-400 font-extrabold">🟢 7/24 Nöbetçi Çekici Aktif</span>
+      <span class="text-slate-400">•</span>
+      <span class="text-white">İzmir Geneli Ortalama Varış:</span>
+      <span class="bg-amber-400 text-slate-950 px-2 py-0.5 rounded-md font-black text-[11px] shadow-sm flex-shrink-0">⏱️ 15 Dk</span>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
-        <a href="index.html" class="flex items-center gap-3.5 group">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-700 text-white flex items-center justify-center font-black shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform flex-shrink-0">
-            <i data-lucide="truck" class="w-7 h-7 text-white"></i>
+        <a href="index.html" class="flex items-center gap-2.5 sm:gap-3.5 group flex-shrink-0">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-sky-500 to-blue-700 text-white flex items-center justify-center font-black shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform flex-shrink-0">
+            <i data-lucide="truck" class="w-6 h-6 sm:w-7 sm:h-7 text-white"></i>
           </div>
-          <div class="flex flex-col justify-center pt-1.5">
-            <span class="text-lg sm:text-xl font-black text-slate-900 tracking-tight block leading-snug">
+          <div class="flex flex-col justify-center">
+            <span class="text-base sm:text-xl font-black text-slate-950 tracking-tight block leading-tight whitespace-nowrap">
               EN YAKIN ÇEKİCİNİZ
             </span>
-            <span class="text-[10px] sm:text-[11px] font-bold text-sky-700 tracking-wide block">
-              İzmir 7/24 Acil Oto Kurtarma Merkezi
+            <span class="text-[10px] sm:text-xs font-bold text-sky-700 tracking-tight sm:tracking-wide block whitespace-nowrap">
+              İzmir 7/24 Acil Oto Kurtarma
             </span>
           </div>
         </a>
@@ -287,14 +290,14 @@
     <p class="mt-1">0536 976 42 93 • 7/24 Kesintisiz Hizmet</p>
   </footer>
 
-  <!-- Mobil Sabit Alt Bar (Sticky Bottom Bar) -->
-  <div class="fixed bottom-0 inset-x-0 z-50 md:hidden bg-white/95 border-t border-slate-200/90 px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] backdrop-blur-xl shadow-[0_-8px_25px_rgba(0,0,0,0.12)]">
+  <!-- Mobil Sabit Alt Bar (Sticky Bottom Bar) - 56PX DEV ERGONOMİK BUTONLAR -->
+  <div class="fixed bottom-0 inset-x-0 z-50 md:hidden bg-white/98 border-t border-slate-200/90 px-3 pt-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)]">
     <div class="grid grid-cols-2 gap-2.5 max-w-lg mx-auto">
-      <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition-all animate-call-urgent min-h-[50px] select-none">
+      <a href="tel:+905369764293" class="btn-urgent-call btn-shimmer flex items-center justify-center gap-2 h-[56px] min-h-[56px] px-2 font-black text-sm sm:text-base rounded-2xl shadow-lg active:scale-95 transition-all animate-call-urgent select-none">
         <i data-lucide="phone-call" class="w-5 h-5 text-white drop-shadow"></i>
         <span class="tracking-wide">HEMEN ARA</span>
       </a>
-      <button type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer flex items-center justify-center gap-2 py-3.5 px-2 font-black text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition-all cursor-pointer min-h-[50px] select-none">
+      <button type="button" onclick="sendLocationToWhatsApp(this)" class="btn-whatsapp-action btn-shimmer flex items-center justify-center gap-2 h-[56px] min-h-[56px] px-2 font-black text-sm sm:text-base rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer select-none">
         <i data-lucide="map-pin" class="w-5 h-5 text-white drop-shadow"></i>
         <span class="tracking-wide">KONUM GÖNDER</span>
       </button>
