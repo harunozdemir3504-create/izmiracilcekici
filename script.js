@@ -27,38 +27,79 @@ const CONFIG = {
   ADS_CONVERSION_LABEL_WA: "WA_CONVERSION_LABEL"
 };
 
+// Global erişim için window nesnesine ata
+window.CONFIG = CONFIG;
+
 // =============================================================================
 // GOOGLE ADS & CRO AKILLI DÖNÜŞÜM TAKİP SİSTEMİ (1. SIRA & 10/10 KALİTE PUANI)
 // =============================================================================
 window.triggerGoogleAdsConversion = function(type, details = {}) {
   try {
-    // 1. DataLayer Push (Google Ads, Tag Manager ve Analytics 4 için evrensel sinyal)
+    const isCall = (type === 'call');
+    const adsId = CONFIG.GOOGLE_ADS_ID;
+    const label = isCall ? CONFIG.ADS_CONVERSION_LABEL_CALL : CONFIG.ADS_CONVERSION_LABEL_WA;
+
+    // 1. DataLayer Push (GTM-MG3JKCQ9, Google Ads ve Analytics 4 için zengin eventler)
     window.dataLayer = window.dataLayer || [];
+    
+    // Standart GTM 'conversion' eventi
     window.dataLayer.push({
-      event: type === 'call' ? 'ads_call_click' : 'ads_whatsapp_lead',
-      conversion_type: type,
-      source_action: details.label || 'Direct Click',
+      event: 'conversion',
+      conversion_type: isCall ? 'call' : 'whatsapp',
+      event_category: isCall ? 'Phone Call' : 'WhatsApp Lead',
+      event_action: isCall ? 'tel_click' : 'whatsapp_click',
+      event_label: details.label || (isCall ? 'Phone_Call_Direct' : 'WhatsApp_Direct'),
       phone_number: CONFIG.TELEFON_NO,
       page_url: window.location.href,
+      value: 1.0,
+      currency: 'TRY',
       timestamp: new Date().toISOString()
     });
 
-    // 2. Google Ads gtag.js doğrudan dönüşüm tetiklemesi
+    // Özel GTM tetikleyicileri için alternatif event isimleri
+    window.dataLayer.push({
+      event: isCall ? 'phone_call' : 'whatsapp_click',
+      conversion_type: isCall ? 'call' : 'whatsapp',
+      source_action: details.label || 'Direct Action'
+    });
+
+    window.dataLayer.push({
+      event: isCall ? 'ads_call_click' : 'ads_whatsapp_lead',
+      conversion_type: isCall ? 'call' : 'whatsapp',
+      source_action: details.label || 'Direct Action'
+    });
+
+    // 2. Google Ads ID ve Label Guard Clause kontrolü
+    const isConfigValid = adsId && 
+                          adsId !== "AW-CONVERSION_ID" && 
+                          !adsId.includes("CONVERSION_ID") && 
+                          label && 
+                          label !== "CALL_CONVERSION_LABEL" && 
+                          label !== "WA_CONVERSION_LABEL" && 
+                          !label.includes("CONVERSION_LABEL");
+
+    // 3. Google Ads gtag('event', 'conversion', ...) tetiklemesi
     if (typeof window.gtag === 'function') {
-      const sendTo = type === 'call' 
-        ? `${CONFIG.GOOGLE_ADS_ID}/${CONFIG.ADS_CONVERSION_LABEL_CALL}` 
-        : `${CONFIG.GOOGLE_ADS_ID}/${CONFIG.ADS_CONVERSION_LABEL_WA}`;
-      
-      window.gtag('event', 'conversion', {
-        send_to: sendTo,
-        value: 1.0,
-        currency: 'TRY',
-        event_category: type === 'call' ? 'Phone Call' : 'WhatsApp Lead',
-        event_label: details.label || 'User Action'
-      });
+      const conversionPayload = {
+        'value': 1.0,
+        'currency': 'TRY',
+        'event_category': isCall ? 'Phone Call' : 'WhatsApp Lead',
+        'event_action': isCall ? 'tel_click' : 'whatsapp_click',
+        'event_label': details.label || (isCall ? 'Phone_Call_Direct' : 'WhatsApp_Direct')
+      };
+
+      if (isConfigValid) {
+        conversionPayload.send_to = `${adsId}/${label}`;
+      }
+
+      window.gtag('event', 'conversion', conversionPayload);
+      window.gtag('event', isCall ? 'phone_call' : 'whatsapp_click', conversionPayload);
+
+      console.log(`[Google Tag Manager / Ads Conversion] '${isCall ? 'call' : 'whatsapp'}' tetiklendi:`, conversionPayload);
     }
   } catch (err) {
-    // AdBlocker vb. durumlarda sessizce devam et
+    // AdBlocker veya üçüncü taraf engellemelerinde buton çalışmasını ASLA durdurma
+    console.warn("[Google Ads Tracking Guard]", err);
   }
 };
 
@@ -363,6 +404,11 @@ window.sendLocationToWhatsApp = function(buttonElement) {
     } else {
       btn = document.getElementById("btnGpsLocate");
     }
+  }
+
+  // Google Ads WhatsApp Dönüşüm Bildirimi (Kullanıcı tıkladığı an anında kayıt)
+  if (typeof window.triggerGoogleAdsConversion === 'function') {
+    window.triggerGoogleAdsConversion('whatsapp', { label: 'GPS_Location_Click' });
   }
 
   // Çift tıklamayı önle
@@ -709,9 +755,10 @@ function initMobileMenu() {
 }
 
 // =============================================================================
-// 9.5. GOOGLE ADS ARAMA VE TELEFON TIKLAMA DÖNÜŞÜM DİNLEYİCİSİ
+// 9.5. GOOGLE ADS ARAMA VE WHATSAPP TIKLAMA DÖNÜŞÜM DİNLEYİCİLERİ
 // =============================================================================
 function initAdCallTracking() {
+  // 1. Doğrudan tel: linkleri
   const telLinks = document.querySelectorAll('a[href^="tel:"]');
   telLinks.forEach((link) => {
     link.addEventListener("click", () => {
@@ -723,6 +770,47 @@ function initAdCallTracking() {
       }
     });
   });
+
+  // 2. Global Document Event Delegation (Dinamik veya modal içi tel: butonları için garantili tetikleyici)
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (link) {
+      if (typeof window.triggerGoogleAdsConversion === 'function') {
+        window.triggerGoogleAdsConversion('call', { 
+          label: 'Phone_Call_Delegated',
+          text: link.textContent.trim()
+        });
+      }
+    }
+  }, { capture: true });
+}
+
+function initAdWhatsAppTracking() {
+  // 1. Doğrudan WhatsApp linkleri
+  const waLinks = document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]');
+  waLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (typeof window.triggerGoogleAdsConversion === 'function') {
+        window.triggerGoogleAdsConversion('whatsapp', { 
+          label: 'WhatsApp_Direct_Link',
+          text: link.textContent.trim()
+        });
+      }
+    });
+  });
+
+  // 2. Global Document Event Delegation (Dinamik WhatsApp butonları için garantili tetikleyici)
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest && e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"]');
+    if (link) {
+      if (typeof window.triggerGoogleAdsConversion === 'function') {
+        window.triggerGoogleAdsConversion('whatsapp', { 
+          label: 'WhatsApp_Delegated_Click',
+          text: link.textContent.trim()
+        });
+      }
+    }
+  }, { capture: true });
 }
 
 // =============================================================================
@@ -738,6 +826,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initDistrictPills();
   initMobileMenu();
   initAdCallTracking();
+  initAdWhatsAppTracking();
 
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
