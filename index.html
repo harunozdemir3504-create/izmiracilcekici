@@ -266,7 +266,7 @@
 
           <!-- Alt Açıklama -->
           <p class="text-base sm:text-lg text-slate-800 font-semibold leading-relaxed max-w-2xl mx-auto lg:mx-0">
-            İzmir'in neresinde olursanız olun; Karabağlar, Buca, Bornova, Konak ve tüm çevre yollarında <strong>7/24 kesintisiz</strong> oto çekici ve yol yardım hizmeti. Tek tuşla konumunuzu gönderin, hemen gelelim.
+            İzmir'in neresinde olursanız olun; <strong>Bornova, Bayraklı, Karşıyaka, Çiğli, Menemen, Buca, Karabağlar, Konak, Göztepe, Gaziemir, Menderes, Urla ve Ödemiş</strong> dahil tüm ana arterlerde ve çevre yollarında <strong>7/24 kesintisiz</strong> oto çekici ve yol yardım hizmeti. Tek tuşla konumunuzu gönderin, hemen gelelim.
           </p>
 
           <!-- Öne Çıkan Güven Rozetleri (Above the Fold 7/24 ve 15 Dk Güçlü Vurgusu) -->
@@ -1272,5 +1272,61 @@
   </div>
 
   <script src="script.js"></script>
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const kelime = decodeURIComponent(params.get('kelime') || params.get('vt_keyword') || '').toLowerCase();
+  if (!kelime) return;
+
+  const bolgeler = {
+    'menemen': "Menemen'de",
+    'menderes': "Menderes'te",
+    'sarnıç': "Sarnıç'ta",
+    'sarnic': "Sarnıç'ta",
+    'göztepe': "Göztepe'de",
+    'goztepe': "Göztepe'de",
+    'urla': "Urla'da",
+    'çiğli': "Çiğli'de",
+    'cigli': "Çiğli'de",
+    'bornova': "Bornova'da",
+    'bayraklı': "Bayraklı'da",
+    'bayrakli': "Bayraklı'da",
+    'buca': "Buca'da",
+    'konak': "Konak'ta",
+    'karabağlar': "Karabağlar'da",
+    'karabaglar': "Karabağlar'da",
+    'karşıyaka': "Karşıyaka'da",
+    'karsiyaka': "Karşıyaka'da",
+    'gaziemir': "Gaziemir'de",
+    'balçova': "Balçova'da",
+    'balcova': "Balçova'da",
+    'narlıdere': "Narlıdere'de",
+    'narlidere': "Narlıdere'de",
+    'güzelbahçe': "Güzelbahçe'de",
+    'guzelbahce': "Güzelbahçe'de",
+    'torbalı': "Torbalı'da",
+    'torbali': "Torbalı'da",
+    'kemalpaşa': "Kemalpaşa'da",
+    'kemalpasa': "Kemalpaşa'da",
+    'aliağa': "Aliağa'da",
+    'aliaga': "Aliağa'da",
+    'seferihisar': "Seferihisar'da",
+    'çeşme': "Çeşme'de",
+    'cesme': "Çeşme'de",
+    'ödemiş': "Ödemiş'te",
+    'odemis': "Ödemiş'te"
+  };
+
+  for (const [anahtar, yazilisi] of Object.entries(bolgeler)) {
+    if (kelime.includes(anahtar)) {
+      const h1 = document.querySelector('h1');
+      if (h1 && h1.innerHTML.includes("İzmir'de")) {
+        h1.innerHTML = h1.innerHTML.replace("İzmir'de", yazilisi);
+      }
+      break;
+    }
+  }
+})();
+</script>
 </body>
 </html>
