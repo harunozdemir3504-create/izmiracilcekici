@@ -1345,5 +1345,53 @@ src="https://c.statcounter.com/13367384/0/8c93b3f8/1/"
 alt="Web Analytics Made Easy - Statcounter"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 <!-- End of Statcounter Code -->
+<script>
+(function() {
+  const MAX_GIRIS = 2; // 3. girişten itibaren uyarıyı gösterir, siteyi kapatmaz
+  const SURE_SINIRI = 60 * 60 * 1000; // 1 saat içinde
+  const simdi = Date.now();
+  
+  let kayit = JSON.parse(localStorage.getItem('sec_monitor_v1') || '{"count":0,"firstTime":0}');
+  
+  if (simdi - kayit.firstTime > SURE_SINIRI) {
+    kayit = { count: 1, firstTime: simdi };
+  } else {
+    kayit.count += 1;
+  }
+  
+  localStorage.setItem('sec_monitor_v1', JSON.stringify(kayit));
+
+  if (kayit.count > MAX_GIRIS) {
+    const uyariKutusu = document.createElement('div');
+    uyariKutusu.style.cssText = 'position:fixed;top:15px;left:50%;transform:translateX(-50%);width:92%;max-width:500px;background:#1a0000;border:2px solid #ff2a2a;color:#fff;padding:16px;border-radius:10px;z-index:999999;box-shadow:0 10px 30px rgba(0,0,0,0.85);font-family:sans-serif;text-align:left;';
+    
+    uyariKutusu.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="color:#ff4d4d;font-weight:bold;font-size:14px;">⚠️ TEKRARLI REKLAM TIKLAMASI TESPİT EDİLDİ</span>
+        <button onclick="this.parentElement.parentElement.remove()" style="background:#333;color:#fff;border:none;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:12px;">Kapat ✕</button>
+      </div>
+      <p style="margin:0 0 8px 0;font-size:13px;line-height:1.45;color:#f1f1f1;">
+        IP adresiniz (<strong id="ziyaretci-ip" style="color:#ffeb3b;">Tespit ediliyor...</strong>) ve cihaz bilgileriniz sistemimizde kayıt altındadır. Gerçek bir yol yardım ihtiyacınız varsa aşağıdan hemen arayabilirsiniz.
+      </p>
+      <p style="margin:0;font-size:12px;line-height:1.4;color:#ff8080;font-weight:bold;">
+        Ancak reklam bütçemize zarar vermek amacıyla tekrarlı tıklama yapmaya devam ederseniz, kayıtlı IP ve cihaz loglarınızla birlikte bilişim suçları kapsamında yasal süreç başlatılacaktır.
+      </p>
+    `;
+    
+    document.body.appendChild(uyariKutusu);
+
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => {
+        const ipSpan = document.getElementById('ziyaretci-ip');
+        if (ipSpan && data.ip) ipSpan.textContent = data.ip;
+      })
+      .catch(() => {
+        const ipSpan = document.getElementById('ziyaretci-ip');
+        if (ipSpan) ipSpan.textContent = 'Kayıt Altında';
+      });
+  }
+})();
+</script>
 </body>
 </html>
